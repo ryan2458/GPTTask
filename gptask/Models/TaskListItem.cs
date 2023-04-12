@@ -8,6 +8,10 @@ namespace gptask.Models
 {
     public class TaskListItem
     {
+        private static int id = 1;
+
+        public int Id { get; }
+
         public string ListName { get; }
 
         public string Name { get; }
@@ -21,6 +25,8 @@ namespace gptask.Models
             ListName = listName;
             Name = name;
             Content = content;
+
+            Id = id++;
         }
     }
 }
