@@ -23,7 +23,7 @@ using gptask.Models;
 namespace gptask.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for TaskListsPage.xaml
+    /// Interaction logic for TaskListPage.xaml
     /// </summary>
     public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
