@@ -29,7 +29,7 @@ namespace gptask.Views.Pages
     {
         List<List<Task>> lists = new List<List<Task>>();
 
-        public TaskListsPage(List<TaskListsViewModel> viewModels, INavigationService navigationService)
+        public TaskListsPage(INavigationService navigationService)
         {
             List<Task> tasks1 = new List<Task>();
             tasks1.Add(new Task("List", "1", "stuff"));

@@ -14,14 +14,45 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ListView Name="listView" ItemsSource="{Binding ViewModel.Tasks}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        
+        <ListView Name="listView" Grid.Row="0" ItemsSource="{Binding ViewModel.Tasks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Checked}" Content="{Binding Name}"></CheckBox>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
+                        <ui:CardExpander Grid.Column="1" Header="{Binding Name}">
+                            <StackPanel>
+                                <CheckBox>TEST</CheckBox>
+                                <CheckBox>TEST</CheckBox>
+                                <CheckBox>TEST</CheckBox>
+                            </StackPanel>
+                        </ui:CardExpander>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            
+            <ui:TextBox Grid.Column="1"></ui:TextBox>
+            <ui:Button Grid.Column="3">Add Item</ui:Button>
+        </Grid>
     </Grid>
 </ui:UiPage>
