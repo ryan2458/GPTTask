@@ -25,11 +25,11 @@ namespace gptask.Views.Pages
     /// <summary>
     /// Interaction logic for TaskListsPage.xaml
     /// </summary>
-    public partial class TaskListsPage : INavigableView<ViewModels.TaskListsViewModel>
+    public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
         List<List<TaskListItem>> lists = new List<List<TaskListItem>>();
 
-        public TaskListsPage(INavigationService navigationService)
+        public TaskListPage(INavigationService navigationService)
         {
             List<TaskListItem> tasks1 = new List<TaskListItem>();
             tasks1.Add(new TaskListItem("List", "1", "stuff"));
@@ -53,7 +53,7 @@ namespace gptask.Views.Pages
             lists.Add(tasks1);
             lists.Add(tasks2);
 
-            ViewModel = new TaskListsViewModel(tasks1);
+            ViewModel = new TaskListViewModel(tasks1);
             InitializeComponent();
 
             navigationService.GetNavigationControl().Navigated += Navigation_Navigated;
@@ -66,6 +66,6 @@ namespace gptask.Views.Pages
             ViewModel.Tasks = lists[nav!.SelectedPageIndex];
         }
 
-        public TaskListsViewModel ViewModel { get; private set; }
+        public TaskListViewModel ViewModel { get; private set; }
     }
 }

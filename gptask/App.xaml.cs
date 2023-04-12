@@ -56,7 +56,7 @@ namespace gptask
                 services.AddScoped<ViewModels.DataViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
-                services.AddScoped<Views.Pages.TaskListsPage>();
+                services.AddScoped<Views.Pages.TaskListPage>();
 
 
                 // Configuration

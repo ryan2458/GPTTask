@@ -55,14 +55,14 @@ namespace gptask.ViewModels
                     Content = "Lists",
                     PageTag = "lists",
                     Icon = SymbolRegular.List24,
-                    PageType = typeof(Views.Pages.TaskListsPage)
+                    PageType = typeof(Views.Pages.TaskListPage)
                 },
                 new NavigationItem()
                 {
                     Content = "Test",
                     PageTag = "test",
                     Icon = SymbolRegular.List24,
-                    PageType = typeof(Views.Pages.TaskListsPage)
+                    PageType = typeof(Views.Pages.TaskListPage)
                 }
 
             };
