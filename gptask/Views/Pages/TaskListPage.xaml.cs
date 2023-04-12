@@ -63,7 +63,11 @@ namespace gptask.Views.Pages
             INavigation sender, RoutedNavigationEventArgs e)
         {
             var nav = (e.Source as NavigationFluent);
-            ViewModel.Tasks = lists[nav!.SelectedPageIndex];
+
+            if (nav!.Current!.PageTag != "settings")
+            {
+                ViewModel.Tasks = lists[nav!.SelectedPageIndex];
+            }
         }
 
         public TaskListViewModel ViewModel { get; private set; }
