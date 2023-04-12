@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace gptask.Models
 {
-    public class Task
+    public class TaskListItem
     {
         public string ListName { get; }
 
@@ -16,7 +16,7 @@ namespace gptask.Models
 
         public bool Checked { get; set; } = false;
 
-        public Task(string listName, string name = "", string content = "")
+        public TaskListItem(string listName, string name = "", string content = "")
         {
             ListName = listName;
             Name = name;

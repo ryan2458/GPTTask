@@ -27,28 +27,28 @@ namespace gptask.Views.Pages
     /// </summary>
     public partial class TaskListsPage : INavigableView<ViewModels.TaskListsViewModel>
     {
-        List<List<Task>> lists = new List<List<Task>>();
+        List<List<TaskListItem>> lists = new List<List<TaskListItem>>();
 
         public TaskListsPage(INavigationService navigationService)
         {
-            List<Task> tasks1 = new List<Task>();
-            tasks1.Add(new Task("List", "1", "stuff"));
-            tasks1.Add(new Task("List", "1", "stuff"));
-            tasks1.Add(new Task("List", "1", "stuff"));
-            tasks1.Add(new Task("List", "1", "stuff"));
-            tasks1.Add(new Task("List", "1", "stuff"));
+            List<TaskListItem> tasks1 = new List<TaskListItem>();
+            tasks1.Add(new TaskListItem("List", "1", "stuff"));
+            tasks1.Add(new TaskListItem("List", "1", "stuff"));
+            tasks1.Add(new TaskListItem("List", "1", "stuff"));
+            tasks1.Add(new TaskListItem("List", "1", "stuff"));
+            tasks1.Add(new TaskListItem("List", "1", "stuff"));
 
-            List<Task> tasks2 = new List<Task>();
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
-            tasks2.Add(new Task("Test", "2", "stuff"));
+            List<TaskListItem> tasks2 = new List<TaskListItem>();
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
+            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
 
             lists.Add(tasks1);
             lists.Add(tasks2);

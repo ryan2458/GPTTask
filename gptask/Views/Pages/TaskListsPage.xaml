@@ -42,7 +42,7 @@
         </ListView>
 
         <Grid Grid.Row="1">
-
+            <!-- The extra columns are for shitty formatting. -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="35" />
                 <ColumnDefinition Width="*" />
