@@ -35,6 +35,11 @@ namespace gptask.Views.Windows
 
         }
 
+        public void AddNewList()
+        {
+
+        }
+
         private void Item_Click(object sender, RoutedEventArgs e)
         {
             NavigationItem item = e.Source as NavigationItem;
@@ -74,6 +79,21 @@ namespace gptask.Views.Windows
 
             // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
+        }
+
+        private void AddListButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newItem = new NavigationItem()
+            {
+                Content = "New List",
+                PageTag = $"test",
+                Icon = Wpf.Ui.Common.SymbolRegular.Airplane20,
+                PageType = typeof(Views.Pages.TaskListPage)
+            };
+
+            newItem.Click += Item_Click;
+
+            ViewModel.NavigationItems.Add(newItem);
         }
     }
 }

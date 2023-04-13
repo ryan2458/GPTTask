@@ -25,11 +25,6 @@ namespace gptask.ViewModels
             }
         }
 
-        public TaskListViewModel(List<TaskListItem> tasks)
-        {
-            this.Tasks = tasks;
-        }
-
         public void OnNavigatedFrom()
         {
         }

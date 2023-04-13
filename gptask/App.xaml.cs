@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
 using System.Collections.Generic;
+using gptask.Models;
 
 namespace gptask
 {
@@ -45,6 +46,9 @@ namespace gptask
                 // Service containing navigation, same as INavigationWindow... but without window
                 services.AddSingleton<INavigationService, NavigationService>();
 
+                // Service for database access.
+                services.AddSingleton<IDataService, SqliteDataService>();
+
                 // Main window with navigation
                 services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
                 services.AddScoped<ViewModels.MainWindowViewModel>();
@@ -57,7 +61,36 @@ namespace gptask
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
                 services.AddScoped<Views.Pages.TaskListPage>();
+                services.AddScoped<ViewModels.TaskListViewModel>();
 
+
+                List<TaskListItemModel> tasks1 = new List<TaskListItemModel>();
+                tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
+                tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
+                tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
+                tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
+                tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
+
+                List<TaskListItemModel> tasks2 = new List<TaskListItemModel>();
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+                tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
+
+
+                List<List<TaskListItemModel>> lists = new List<List<TaskListItemModel>>();
+                lists.Add(tasks1);
+                lists.Add(tasks2);
+
+                ServiceDescriptor sd = new ServiceDescriptor(typeof(List<List<TaskListItemModel>>), lists);
+
+                services.Add(sd);
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

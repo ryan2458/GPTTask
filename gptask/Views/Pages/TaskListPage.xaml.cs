@@ -27,33 +27,14 @@ namespace gptask.Views.Pages
     /// </summary>
     public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
-        List<List<TaskListItem>> lists = new List<List<TaskListItem>>();
+        List<List<TaskListItemModel>> lists = new List<List<TaskListItemModel>>();
 
-        public TaskListPage(INavigationService navigationService)
+        public TaskListPage(INavigationService navigationService, TaskListViewModel viewModel,
+            List<List<TaskListItemModel>> lists)
         {
-            List<TaskListItem> tasks1 = new List<TaskListItem>();
-            tasks1.Add(new TaskListItem("List", "1", "stuff"));
-            tasks1.Add(new TaskListItem("List", "1", "stuff"));
-            tasks1.Add(new TaskListItem("List", "1", "stuff"));
-            tasks1.Add(new TaskListItem("List", "1", "stuff"));
-            tasks1.Add(new TaskListItem("List", "1", "stuff"));
-
-            List<TaskListItem> tasks2 = new List<TaskListItem>();
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-            tasks2.Add(new TaskListItem("Test", "2", "stuff"));
-
-            lists.Add(tasks1);
-            lists.Add(tasks2);
-
-            ViewModel = new TaskListViewModel(tasks1);
+            this.lists = lists;
+            ViewModel = viewModel;
+            ViewModel.Tasks = lists.First();
             InitializeComponent();
 
             navigationService.GetNavigationControl().Navigated += Navigation_Navigated;
@@ -71,5 +52,10 @@ namespace gptask.Views.Pages
         }
 
         public TaskListViewModel ViewModel { get; private set; }
+
+        public void AddList(List<TaskListItemModel> newList)
+        {
+            lists.Add(newList);
+        }
     }
 }

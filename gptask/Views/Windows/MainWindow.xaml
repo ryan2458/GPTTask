@@ -38,6 +38,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="67" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -51,10 +52,17 @@
 
                 <ui:AutoSuggestBox Grid.Row="1" Margin="0,0,0,12" />
 
+                <ui:Button Grid.Row="2" Click="AddListButton_Click">Add List</ui:Button>
+                <Popup x:Name="AddListPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=AddListButton}" Placement="Bottom">
+                    <Border Background="White" Padding="5">
+                        <TextBox x:Name="AddListTextBox" KeyDown="AddListTextBox_KeyDown" LostFocus="AddListTextBox_LostFocus" />
+                    </Border>
+                </Popup>
+
                 <!--  This is the main navigation of the application.  -->
                 <ui:NavigationFluent
                     x:Name="RootNavigation"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
                     Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
                     Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
