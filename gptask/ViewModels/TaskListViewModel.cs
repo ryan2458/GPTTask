@@ -13,9 +13,9 @@ namespace gptask.ViewModels
 {
     public partial class TaskListViewModel : ObservableObject, INavigationAware
     {
-        private List<TaskListItem> tasks = new List<TaskListItem>();
+        private List<TaskListItemModel> tasks = new List<TaskListItemModel>();
 
-        public List<TaskListItem> Tasks
+        public List<TaskListItemModel> Tasks
         {
             get => tasks;
             set

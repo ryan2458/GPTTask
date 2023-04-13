@@ -1,7 +1,13 @@
-﻿using System;
+﻿using gptask.Models;
+using gptask.Services;
+using gptask.Views.Pages;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
@@ -13,30 +19,50 @@ namespace gptask.Views.Windows
     /// </summary>
     public partial class MainWindow : INavigationWindow
     {
+        private IDataService _dataService;
+
+        private TaskListPage _taskListPage;
+
         public ViewModels.MainWindowViewModel ViewModel
         {
             get;
         }
 
-        public MainWindow(ViewModels.MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
+        public MainWindow(ViewModels.MainWindowViewModel viewModel, IPageService pageService, 
+            INavigationService navigationService,
+            IDataService dataService,
+            TaskListPage taskListPage)
         {
             ViewModel = viewModel;
             DataContext = this;
+
+            _dataService = dataService;
+            _taskListPage = taskListPage;
 
             InitializeComponent();
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
             
+            foreach (ListModel model in taskListPage.ListModels)
+            {
+                NavigationItem navigationItem = new NavigationItem()
+                {
+                    Content = model.Name,
+                    PageTag = model.Tag,
+                    Icon = SymbolRegular.List24,
+                    PageType = typeof(Views.Pages.TaskListPage)
+                };
+
+                ViewModel.NavigationItems.Add(navigationItem);
+            }
+
             foreach (NavigationItem item in ViewModel.NavigationItems)
             {
                 item.Click += Item_Click;
             }
 
-        }
-
-        public void AddNewList()
-        {
+            _taskListPage.InitializeView();
 
         }
 
@@ -83,17 +109,45 @@ namespace gptask.Views.Windows
 
         private void AddListButton_Click(object sender, RoutedEventArgs e)
         {
-            var newItem = new NavigationItem()
+            AddListPopup.IsOpen = true;
+            AddListTextBox.Focus();
+        }
+
+        private async void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                Content = "New List",
-                PageTag = $"test",
-                Icon = Wpf.Ui.Common.SymbolRegular.Airplane20,
-                PageType = typeof(Views.Pages.TaskListPage)
-            };
+                var newListModel = new ListModel();
 
-            newItem.Click += Item_Click;
+                newListModel.Name = AddListTextBox.Text;
+                int listId = await _dataService.AddOrUpdateListAsync(newListModel);
 
-            ViewModel.NavigationItems.Add(newItem);
+                string newListTag = $"{newListModel.Id}";
+                newListModel.Tag = newListTag;
+
+                await _dataService.AddOrUpdateListAsync(newListModel);
+
+                _taskListPage.AddList(listId, new List<TaskListItemModel>());
+
+                var newItem = new NavigationItem()
+                {
+                    Content = newListModel.Name,
+                    PageTag = newListTag,
+                    Icon = Wpf.Ui.Common.SymbolRegular.Airplane20,
+                    PageType = typeof(Views.Pages.TaskListPage)
+                };
+
+                ViewModel.NavigationItems.Add(newItem);
+                newItem.Click += Item_Click;
+                AddListPopup.IsOpen = false;
+                AddListTextBox.Clear();
+            }
+        }
+
+        private void AddListTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            AddListPopup.IsOpen = false;
+            AddListTextBox.Clear();
         }
     }
 }

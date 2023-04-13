@@ -8,27 +8,27 @@ namespace gptask.Models
         /// Gets the Task id, not to be used for identifying the list this task belongs to.
         /// </summary>
         [PrimaryKey, AutoIncrement]
-        public int Id { get; } = 0;
+        public int Id { get; set; } = 0;
 
         /// <summary>
         /// Gets the name of the list this task belongs to.
         /// </summary>
-        public string ListName { get; } = string.Empty;
+        public string ListName { get; set; }
 
         /// <summary>
         /// Gets the tag of the list this task belongs to.
         /// </summary>
-        public string ListTag { get; } = string.Empty;
+        public string ListTag { get; set; }
 
         /// <summary>
         /// Gets the name of the task.
         /// </summary>
-        public string Name { get; } = string.Empty;
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets the content of the task.
         /// </summary>
-        public string Content { get; } = string.Empty;
+        public string Content { get; set; }
 
         /// <summary>
         /// Gets whether the task is checked or unchecked.

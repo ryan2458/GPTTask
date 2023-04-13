@@ -19,6 +19,9 @@ using Wpf.Ui.Mvvm.Interfaces;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using gptask.Models;
+using gptask.Services;
+using Wpf.Ui.Mvvm.Services;
+using System.Threading.Tasks;
 
 namespace gptask.Views.Pages
 {
@@ -27,17 +30,43 @@ namespace gptask.Views.Pages
     /// </summary>
     public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
-        List<List<TaskListItemModel>> lists = new List<List<TaskListItemModel>>();
+        private IDictionary<int, List<TaskListItemModel>> lists = new Dictionary<int, List<TaskListItemModel>>();
+
+        private INavigationService _navigationService;
+
+        public List<ListModel> ListModels { get; private set; }
 
         public TaskListPage(INavigationService navigationService, TaskListViewModel viewModel,
-            List<List<TaskListItemModel>> lists)
+            IDataService dataService)
         {
-            this.lists = lists;
-            ViewModel = viewModel;
-            ViewModel.Tasks = lists.First();
             InitializeComponent();
+            ViewModel = viewModel;
 
-            navigationService.GetNavigationControl().Navigated += Navigation_Navigated;
+            Task.Run(async () => await LoadListsAndTasksAsync(dataService)).Wait();
+            _navigationService = navigationService;
+        }
+
+        public void InitializeView()
+        {
+            _navigationService.GetNavigationControl().Navigated += Navigation_Navigated;
+        }
+
+        private async Task LoadListsAndTasksAsync(IDataService dataService)
+        {
+            // Fetch lists from the database
+            ListModels = await dataService.GetAllListsAsync();
+
+            // Fetch tasks for each list and add them to the lists collection
+            foreach (var list in ListModels)
+            {
+                var tasks = await dataService.GetTaskListItemsAsync(list.Tag);
+                lists.Add(list.Id, tasks);
+            }
+
+            if (lists.Count > 0)
+            {
+                ViewModel.Tasks = lists.First().Value;
+            }
         }
 
         private void Navigation_Navigated([System.Diagnostics.CodeAnalysis.NotNull] 
@@ -45,17 +74,22 @@ namespace gptask.Views.Pages
         {
             var nav = (e.Source as NavigationFluent);
 
-            if (nav!.Current!.PageTag != "settings")
+            if (nav!.Current?.PageTag != "settings")
             {
-                ViewModel.Tasks = lists[nav!.SelectedPageIndex];
+                bool parsed = int.TryParse(nav?.Current?.PageTag, out int listId);
+
+                if (parsed)
+                {
+                    ViewModel.Tasks = lists[listId];
+                }
             }
         }
 
         public TaskListViewModel ViewModel { get; private set; }
 
-        public void AddList(List<TaskListItemModel> newList)
+        public void AddList(int listId, List<TaskListItemModel> newList)
         {
-            lists.Add(newList);
+            lists.Add(listId, newList);
         }
     }
 }

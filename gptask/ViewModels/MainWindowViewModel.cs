@@ -50,20 +50,20 @@ namespace gptask.ViewModels
                 //    Icon = SymbolRegular.DataHistogram24,
                 //    PageType = typeof(Views.Pages.DataPage)
                 //},
-                new NavigationItem()
-                {
-                    Content = "Lists",
-                    PageTag = "lists",
-                    Icon = SymbolRegular.List24,
-                    PageType = typeof(Views.Pages.TaskListPage)
-                },
-                new NavigationItem()
-                {
-                    Content = "Test",
-                    PageTag = "test",
-                    Icon = SymbolRegular.List24,
-                    PageType = typeof(Views.Pages.TaskListPage)
-                }
+                //new NavigationItem()
+                //{
+                //    Content = "Lists",
+                //    PageTag = "lists",
+                //    Icon = SymbolRegular.List24,
+                //    PageType = typeof(Views.Pages.TaskListPage)
+                //},
+                //new NavigationItem()
+                //{
+                //    Content = "Test",
+                //    PageTag = "test",
+                //    Icon = SymbolRegular.List24,
+                //    PageType = typeof(Views.Pages.TaskListPage)
+                //}
 
             };
 

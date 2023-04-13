@@ -18,10 +18,10 @@ namespace gptask.Services
             string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TaskList.db");
             _db = new SQLiteAsyncConnection(dbPath);
 
-            InitializeDatabase();
+            Task.Run(async () => await InitializeDatabase()).Wait();
         }
 
-        private async void InitializeDatabase()
+        private async Task InitializeDatabase()
         {
             await _db.CreateTableAsync<ListModel>();
             await _db.CreateTableAsync<TaskListItemModel>();
@@ -34,7 +34,10 @@ namespace gptask.Services
 
         public async Task<List<TaskListItemModel>> GetTaskListItemsAsync(string listTag)
         {
-            return await _db.Table<TaskListItemModel>().Where(x => x.ListTag == listTag).ToListAsync();
+            if (listTag != string.Empty)
+                return await _db.Table<TaskListItemModel>().Where(x => x.ListTag == listTag).ToListAsync();
+            else
+                return null;
         }
 
         public async Task<List<TaskListItemModel>> GetSubTasksAsync(int parentId)
@@ -46,11 +49,13 @@ namespace gptask.Services
         {
             if (list.Id != 0)
             {
-                return await _db.UpdateAsync(list);
+                await _db.UpdateAsync(list);
+                return list.Id;
             }
             else
             {
-                return await _db.InsertAsync(list);
+                await _db.InsertAsync(list);
+                return list.Id;
             }
         }
 
