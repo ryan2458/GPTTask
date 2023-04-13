@@ -19,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         
-        <ListView Name="listView" Grid.Row="0" ItemsSource="{Binding ViewModel.Tasks}">
+        <ListView Name="listView" Grid.Row="0" ItemsSource="{Binding Tasks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -30,11 +30,14 @@
                         
                         <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
                         <ui:CardExpander Grid.Column="1" Header="{Binding Name}">
-                            <StackPanel>
-                                <CheckBox>TEST</CheckBox>
-                                <CheckBox>TEST</CheckBox>
-                                <CheckBox>TEST</CheckBox>
-                            </StackPanel>
+                            <Grid>
+                                <ListView>
+                                    
+                                </ListView>
+                                <Grid>
+
+                                </Grid>
+                            </Grid>
                         </ui:CardExpander>
                     </Grid>
                 </DataTemplate>
@@ -51,8 +54,8 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
             
-            <ui:TextBox Grid.Column="1"></ui:TextBox>
-            <ui:Button Grid.Column="3">Add Item</ui:Button>
+            <ui:TextBox Grid.Column="1" Name="AddItemTextBox"></ui:TextBox>
+            <ui:Button Grid.Column="3" Click="AddItem_Click">Add Item</ui:Button>
         </Grid>
     </Grid>
 </ui:UiPage>

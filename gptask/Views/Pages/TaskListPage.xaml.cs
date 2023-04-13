@@ -22,6 +22,7 @@ using gptask.Models;
 using gptask.Services;
 using Wpf.Ui.Mvvm.Services;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace gptask.Views.Pages
 {
@@ -30,9 +31,15 @@ namespace gptask.Views.Pages
     /// </summary>
     public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
-        private IDictionary<int, List<TaskListItemModel>> lists = new Dictionary<int, List<TaskListItemModel>>();
+        private IDictionary<int, ObservableCollection<TaskListItemModel>> lists = new Dictionary<int, ObservableCollection<TaskListItemModel>>();
 
         private INavigationService _navigationService;
+
+        private IDataService _dataService;
+
+        private string currentTag;
+
+        private string currentList;
 
         public List<ListModel> ListModels { get; private set; }
 
@@ -44,6 +51,9 @@ namespace gptask.Views.Pages
 
             Task.Run(async () => await LoadListsAndTasksAsync(dataService)).Wait();
             _navigationService = navigationService;
+            _dataService = dataService;
+
+            DataContext = ViewModel;
         }
 
         public void InitializeView()
@@ -60,7 +70,7 @@ namespace gptask.Views.Pages
             foreach (var list in ListModels)
             {
                 var tasks = await dataService.GetTaskListItemsAsync(list.Tag);
-                lists.Add(list.Id, tasks);
+                lists.Add(list.Id, new ObservableCollection<TaskListItemModel>(tasks));
             }
 
             if (lists.Count > 0)
@@ -81,6 +91,8 @@ namespace gptask.Views.Pages
                 if (parsed)
                 {
                     ViewModel.Tasks = lists[listId];
+                    currentTag = listId.ToString();
+                    currentList = nav.Current.Content.ToString();
                 }
             }
         }
@@ -89,7 +101,23 @@ namespace gptask.Views.Pages
 
         public void AddList(int listId, List<TaskListItemModel> newList)
         {
-            lists.Add(listId, newList);
+            lists.Add(listId, new ObservableCollection<TaskListItemModel>(newList));
+        }
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            string taskName = AddItemTextBox.Text;
+
+            string listName = currentList;
+            string listTag = currentTag;
+
+            TaskListItemModel task = new TaskListItemModel(listName, listTag, taskName);
+
+            ViewModel.AddTask(task);
+
+            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(task)).Wait();
+
+            AddItemTextBox.Clear();
         }
     }
 }

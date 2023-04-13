@@ -43,7 +43,9 @@ namespace gptask.Views.Windows
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
-            
+
+            _taskListPage.InitializeView();
+
             foreach (ListModel model in taskListPage.ListModels)
             {
                 NavigationItem navigationItem = new NavigationItem()
@@ -57,12 +59,12 @@ namespace gptask.Views.Windows
                 ViewModel.NavigationItems.Add(navigationItem);
             }
 
+
             foreach (NavigationItem item in ViewModel.NavigationItems)
             {
                 item.Click += Item_Click;
             }
 
-            _taskListPage.InitializeView();
 
         }
 

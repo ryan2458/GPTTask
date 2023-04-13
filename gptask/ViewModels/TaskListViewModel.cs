@@ -13,9 +13,9 @@ namespace gptask.ViewModels
 {
     public partial class TaskListViewModel : ObservableObject, INavigationAware
     {
-        private List<TaskListItemModel> tasks = new List<TaskListItemModel>();
+        private ObservableCollection<TaskListItemModel> tasks = new ObservableCollection<TaskListItemModel>();
 
-        public List<TaskListItemModel> Tasks
+        public ObservableCollection<TaskListItemModel> Tasks
         {
             get => tasks;
             set
@@ -23,6 +23,12 @@ namespace gptask.ViewModels
                 tasks = value;
                 this.OnPropertyChanged(nameof(Tasks));
             }
+        }
+
+        public void AddTask(TaskListItemModel newTask)
+        {
+            Tasks.Add(newTask);
+            this.OnPropertyChanged(nameof(Tasks));
         }
 
         public void OnNavigatedFrom()
