@@ -28,7 +28,6 @@ namespace gptask.ViewModels
         public void AddTask(TaskListItemModel newTask)
         {
             Tasks.Add(newTask);
-            this.OnPropertyChanged(nameof(Tasks));
         }
 
         public void OnNavigatedFrom()
