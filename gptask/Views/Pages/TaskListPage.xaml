@@ -31,11 +31,32 @@
                         <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
                         <ui:CardExpander Grid.Column="1" Header="{Binding Name}">
                             <Grid>
-                                <ListView>
-                                    
-                                </ListView>
-                                <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <ListView Grid.Row="0" ItemsSource="{Binding Subtasks}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
 
+                                                <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Name="AddSubtaskTextBox" Margin="0,0,10,0" />
+                                    <Button Grid.Column="1" Name="AddSubtaskButton" Content="Add Item"/>
                                 </Grid>
                             </Grid>
                         </ui:CardExpander>

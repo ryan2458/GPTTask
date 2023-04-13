@@ -15,6 +15,8 @@ namespace gptask.ViewModels
     {
         private ObservableCollection<TaskListItemModel> tasks = new ObservableCollection<TaskListItemModel>();
 
+        private ObservableCollection<TaskListItemModel> subtasks = new ObservableCollection<TaskListItemModel>();
+
         public ObservableCollection<TaskListItemModel> Tasks
         {
             get => tasks;
@@ -22,6 +24,16 @@ namespace gptask.ViewModels
             {
                 tasks = value;
                 this.OnPropertyChanged(nameof(Tasks));
+            }
+        }
+
+        public ObservableCollection<TaskListItemModel> Subtasks
+        {
+            get => subtasks;
+            set
+            {
+                subtasks = value;
+                this.OnPropertyChanged(nameof(Subtasks));
             }
         }
 
