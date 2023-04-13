@@ -53,8 +53,8 @@
                 <ui:AutoSuggestBox Grid.Row="1" Margin="0,0,0,12" />
 
                 <ui:Button Grid.Row="2" Name="AddListButton" Click="AddListButton_Click">Add List</ui:Button>
-                <Popup x:Name="AddListPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=AddListButton}" Placement="Bottom">
-                    <Border Background="White" Padding="5">
+                <Popup x:Name="AddListPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=AddListButton}" Placement="Right">
+                    <Border Background="{DynamicResource ApplicationBackgroundBrush}" Padding="5,0,0,0">
                         <TextBox x:Name="AddListTextBox" KeyDown="AddListTextBox_KeyDown" LostFocus="AddListTextBox_LostFocus" />
                     </Border>
                 </Popup>

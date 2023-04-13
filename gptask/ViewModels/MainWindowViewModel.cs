@@ -34,38 +34,7 @@ namespace gptask.ViewModels
         {
             ApplicationTitle = "GPTask";
 
-            NavigationItems = new ObservableCollection<INavigationControl>
-            {
-                //new NavigationItem()
-                //{
-                //    Content = "Home",
-                //    PageTag = "dashboard",
-                //    Icon = SymbolRegular.Home24,
-                //    PageType = typeof(Views.Pages.DashboardPage)
-                //},
-                //new NavigationItem()
-                //{
-                //    Content = "Data",
-                //    PageTag = "data",
-                //    Icon = SymbolRegular.DataHistogram24,
-                //    PageType = typeof(Views.Pages.DataPage)
-                //},
-                //new NavigationItem()
-                //{
-                //    Content = "Lists",
-                //    PageTag = "lists",
-                //    Icon = SymbolRegular.List24,
-                //    PageType = typeof(Views.Pages.TaskListPage)
-                //},
-                //new NavigationItem()
-                //{
-                //    Content = "Test",
-                //    PageTag = "test",
-                //    Icon = SymbolRegular.List24,
-                //    PageType = typeof(Views.Pages.TaskListPage)
-                //}
-
-            };
+            NavigationItems = new ObservableCollection<INavigationControl>();
 
             NavigationFooter = new ObservableCollection<INavigationControl>
             {

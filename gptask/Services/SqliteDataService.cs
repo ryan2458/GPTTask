@@ -34,10 +34,15 @@ namespace gptask.Services
 
         public async Task<List<TaskListItemModel>> GetTaskListItemsAsync(string listTag)
         {
-            if (listTag != string.Empty)
+            try
+            {
                 return await _db.Table<TaskListItemModel>().Where(x => x.ListTag == listTag).ToListAsync();
-            else
-                return null;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<List<TaskListItemModel>> GetSubTasksAsync(int parentId)
