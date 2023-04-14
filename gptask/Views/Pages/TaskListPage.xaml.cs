@@ -157,11 +157,6 @@ namespace gptask.Views.Pages
                         TaskListItemModel subtask = new TaskListItemModel(currentList, currentTag,
                             subtaskName, "", parentTask.Id);
 
-                        if (parentTask.Subtasks == null)
-                        {
-                            parentTask.Subtasks = new ObservableCollection<TaskListItemModel>();
-                        }
-
                         parentTask.Subtasks.Add(subtask);
 
                         Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(subtask)).Wait();

@@ -9,7 +9,7 @@ namespace gptask.Models
         /// <summary>
         /// Backing field for subtasks property.
         /// </summary>
-        private ObservableCollection<TaskListItemModel> subtasks;
+        private ObservableCollection<TaskListItemModel> subtasks = new ObservableCollection<TaskListItemModel>();
 
         /// <summary>
         /// Gets the Task id, not to be used for identifying the list this task belongs to.
