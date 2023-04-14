@@ -78,12 +78,7 @@ namespace gptask.Views.Pages
                     if (task.ParentTaskId != null)
                     {
                         var parentTask = tasks.Find(t => t.Id == task.ParentTaskId);
-                        if (parentTask.Subtasks == null)
-                        {
-                            parentTask.Subtasks = new ObservableCollection<TaskListItemModel>();
-                        }
-
-                        parentTask.Subtasks.Add(task);
+                        parentTask!.Subtasks.Add(task);
                         tasks.Remove(task);
                         i -= 1;
                     }
