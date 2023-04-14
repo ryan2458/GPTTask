@@ -50,6 +50,7 @@ namespace gptask.Services
             return await _db.Table<TaskListItemModel>().Where(x => x.ParentTaskId == parentId).ToListAsync();
         }
 
+        // TODO: Don't return list.id.  Just extract that after this returns.
         public async Task<int> AddOrUpdateListAsync(ListModel list)
         {
             if (list.Id != 0)
