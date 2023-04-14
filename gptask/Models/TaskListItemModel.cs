@@ -1,9 +1,16 @@
-﻿using SQLite;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
+using System.Collections.ObjectModel;
 
 namespace gptask.Models
 {
-    public class TaskListItemModel
+    public class TaskListItemModel : ObservableObject
     {
+        /// <summary>
+        /// Backing field for subtasks property.
+        /// </summary>
+        private ObservableCollection<TaskListItemModel> subtasks;
+
         /// <summary>
         /// Gets the Task id, not to be used for identifying the list this task belongs to.
         /// </summary>
@@ -36,6 +43,17 @@ namespace gptask.Models
         public bool Checked { get; set; } = false;
 
         public int? ParentTaskId { get; set; }
+
+        [Ignore]
+        public ObservableCollection<TaskListItemModel> Subtasks 
+        {
+            get => subtasks;
+            set
+            {
+                subtasks = value;
+                OnPropertyChanged(nameof(Subtasks));
+            }
+        }
 
         public TaskListItemModel()
         {

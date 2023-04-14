@@ -23,6 +23,7 @@ using gptask.Services;
 using Wpf.Ui.Mvvm.Services;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace gptask.Views.Pages
 {
@@ -70,6 +71,24 @@ namespace gptask.Views.Pages
             foreach (var list in ListModels)
             {
                 var tasks = await dataService.GetTaskListItemsAsync(list.Tag);
+
+                for (int i = 0; i < tasks.Count; ++i)
+                {
+                    TaskListItemModel task = tasks[i];
+                    if (task.ParentTaskId != null)
+                    {
+                        var parentTask = tasks.Find(t => t.Id == task.ParentTaskId);
+                        if (parentTask.Subtasks == null)
+                        {
+                            parentTask.Subtasks = new ObservableCollection<TaskListItemModel>();
+                        }
+
+                        parentTask.Subtasks.Add(task);
+                        tasks.Remove(task);
+                        i -= 1;
+                    }
+                }
+
                 lists.Add(list.Id, new ObservableCollection<TaskListItemModel>(tasks));
             }
 
@@ -118,6 +137,52 @@ namespace gptask.Views.Pages
             Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(task)).Wait();
 
             AddItemTextBox.Clear();
+        }
+
+        private void AddSubtaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Wpf.Ui.Controls.Button;
+            var parentTask = button?.DataContext as TaskListItemModel;
+
+            if (parentTask != null)
+            {
+                var addSubtaskTextBox = FindNameInParent("AddSubtaskTextBox", button!) as Wpf.Ui.Controls.TextBox;
+                
+                if (addSubtaskTextBox != null)
+                {
+                    string subtaskName = addSubtaskTextBox.Text;
+
+                    if (!string.IsNullOrEmpty(subtaskName))
+                    {
+                        TaskListItemModel subtask = new TaskListItemModel(currentList, currentTag,
+                            subtaskName, "", parentTask.Id);
+
+                        if (parentTask.Subtasks == null)
+                        {
+                            parentTask.Subtasks = new ObservableCollection<TaskListItemModel>();
+                        }
+
+                        parentTask.Subtasks.Add(subtask);
+
+                        Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(subtask)).Wait();
+                    }
+
+                    addSubtaskTextBox.Clear();
+                }
+            }
+        }
+
+        private FrameworkElement FindNameInParent(string name, FrameworkElement element)
+        {
+            while (element != null && element.Parent != null)
+            {
+                element = element.Parent as FrameworkElement;
+                if (element.FindName(name) is FrameworkElement foundElement)
+                {
+                    return foundElement;
+                }
+            }
+            return null;
         }
     }
 }

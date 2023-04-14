@@ -55,8 +55,8 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" Name="AddSubtaskTextBox" Margin="0,0,10,0" />
-                                    <Button Grid.Column="1" Name="AddSubtaskButton" Content="Add Item"/>
+                                    <ui:TextBox Grid.Column="0" Name="AddSubtaskTextBox" Margin="0,0,10,0" />
+                                    <ui:Button Grid.Column="1" Name="AddSubtaskButton" Click="AddSubtaskButton_Click" Content="Add Item"/>
                                 </Grid>
                             </Grid>
                         </ui:CardExpander>
