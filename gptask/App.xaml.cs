@@ -1,18 +1,14 @@
 ﻿using gptask.Models;
 using gptask.Services;
-using gptask.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Threading;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
-using System.Collections.Generic;
-using gptask.Models;
 
 namespace gptask
 {

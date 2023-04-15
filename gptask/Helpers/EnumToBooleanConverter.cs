@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace gptask.Helpers
 {
+    /// <summary>
+    /// Converter for the settings page.
+    /// This came with the project template, don't delete.
+    /// </summary>
     internal class EnumToBooleanConverter : IValueConverter
     {
         public EnumToBooleanConverter()

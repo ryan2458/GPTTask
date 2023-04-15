@@ -3,8 +3,6 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace gptask.Services
@@ -42,7 +40,6 @@ namespace gptask.Services
             {
                 throw;
             }
-            
         }
 
         public async Task<List<TaskListItemModel>> GetSubTasksAsync(int parentId)
