@@ -44,6 +44,8 @@ namespace gptask.Services
         /// </summary>
         private async Task HandleActivationAsync()
         {
+            // Note: These tasks have nothing to do with our app's tasks
+            // These are specific to the concept of C# asynchronous programming.
             await Task.CompletedTask;
 
             if (!Application.Current.Windows.OfType<Views.Windows.MainWindow>().Any())
