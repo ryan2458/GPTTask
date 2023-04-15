@@ -54,43 +54,10 @@ namespace gptask
                 services.AddScoped<ViewModels.MainWindowViewModel>();
 
                 // Views and ViewModels
-                services.AddScoped<Views.Pages.DashboardPage>();
-                services.AddScoped<ViewModels.DashboardViewModel>();
-                services.AddScoped<Views.Pages.DataPage>();
-                services.AddScoped<ViewModels.DataViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
                 services.AddScoped<Views.Pages.TaskListPage>();
                 services.AddScoped<ViewModels.TaskListViewModel>();
-
-
-                //List<TaskListItemModel> tasks1 = new List<TaskListItemModel>();
-                //tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
-                //tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
-                //tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
-                //tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
-                //tasks1.Add(new TaskListItemModel("List", "1", "stuff"));
-
-                //List<TaskListItemModel> tasks2 = new List<TaskListItemModel>();
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-                //tasks2.Add(new TaskListItemModel("Test", "2", "stuff"));
-
-
-                //List<List<TaskListItemModel>> lists = new List<List<TaskListItemModel>>();
-                //lists.Add(tasks1);
-                //lists.Add(tasks2);
-
-                //ServiceDescriptor sd = new ServiceDescriptor(typeof(List<List<TaskListItemModel>>), lists);
-
-                //services.Add(sd);
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
