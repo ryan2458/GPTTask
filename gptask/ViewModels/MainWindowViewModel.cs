@@ -40,6 +40,13 @@ namespace gptask.ViewModels
             {
                 new NavigationItem()
                 {
+                    Content = "Calendar",
+                    PageTag = "calendar",
+                    Icon = SymbolRegular.Calculator24,
+                    PageType = typeof(Views.Pages.CalendarPage)
+                },
+                new NavigationItem()
+                {
                     Content = "Settings",
                     PageTag = "settings",
                     Icon = SymbolRegular.Settings24,

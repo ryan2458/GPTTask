@@ -50,6 +50,8 @@ namespace gptask
                 services.AddScoped<ViewModels.MainWindowViewModel>();
 
                 // Views and ViewModels
+                services.AddScoped<Views.Pages.CalendarPage>();
+                services.AddScoped<ViewModels.CalendarViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
                 services.AddScoped<Views.Pages.TaskListPage>();
