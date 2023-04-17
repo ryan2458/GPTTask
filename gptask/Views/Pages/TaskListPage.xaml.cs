@@ -119,6 +119,20 @@ namespace gptask.Views.Pages
             lists.Add(listId, new ObservableCollection<TaskListItemModel>(newList));
         }
 
+        public void DeleteTask(TaskListItemModel taskListItemModel)
+        {
+            // Remove all corresponding subtasks
+            for (int i = taskListItemModel.Subtasks.Count - 1; i >= 0; i--)
+            {
+                TaskListItemModel? subtask = taskListItemModel.Subtasks[i];
+                Task.Run(async () => await _dataService.DeleteTaskListItemAsync(subtask.Id));
+                taskListItemModel.Subtasks.RemoveAt(i);
+            }
+
+            ViewModel.DeleteTask(taskListItemModel);
+            Task.Run(async () => await _dataService.DeleteTaskListItemAsync(taskListItemModel.Id));
+        }
+
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
             string taskName = AddItemTextBox.Text;
@@ -192,17 +206,7 @@ namespace gptask.Views.Pages
         private void DeleteTaskHandler(object sender, RoutedEventArgs e)
         {
             TaskListItemModel taskListItemModel = ((sender as MenuItem)!.DataContext as TaskListItemModel)!;
-
-            // Remove all corresponding subtasks
-            for (int i = taskListItemModel.Subtasks.Count - 1; i >= 0; i--)
-            {
-                TaskListItemModel? subtask = taskListItemModel.Subtasks[i];
-                Task.Run(async () => await _dataService.DeleteTaskListItemAsync(subtask.Id));
-                taskListItemModel.Subtasks.RemoveAt(i);
-            }
-
-            ViewModel.DeleteTask(taskListItemModel);
-            Task.Run(async () => await _dataService.DeleteTaskListItemAsync(taskListItemModel.Id));
+            DeleteTask(taskListItemModel);
         }
     }
 }

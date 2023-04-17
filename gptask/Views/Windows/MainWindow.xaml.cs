@@ -171,10 +171,29 @@ namespace gptask.Views.Windows
         /// <param name="sender">the sender of the delete list click event.</param>
         /// <param name="e">event args</param>
         /// <param name="listModel">the list model associated with this list.</param>
-        /// <exception cref="NotImplementedException"></exception>
         private void DeleteListClick(object sender, RoutedEventArgs e, ListModel listModel)
         {
-            throw new NotImplementedException();
+            var tasks = _taskListPage.ViewModel.Tasks;
+
+            for (int i = tasks.Count - 1; i >= 0; --i)
+            {
+                _taskListPage.DeleteTask(tasks[i]);
+            }
+
+            Task.Run(async () => await _dataService.DeleteListAsync(listModel.Id));
+            var navItem = ViewModel.NavigationItems.Cast<NavigationItem>()
+                .Where(item => item.PageTag == listModel.Tag).First();
+
+            ViewModel.NavigationItems.Remove(navItem);
+
+            CleanUpNavigationItem(navItem);
+
+            var firstItem = (ViewModel.NavigationItems.FirstOrDefault() as NavigationItem);
+
+            if (firstItem != null)
+            {
+                RootNavigation.Navigate(firstItem.PageTag);
+            }
         }
 
         /// <summary>
@@ -215,12 +234,25 @@ namespace gptask.Views.Windows
             var editMenuItem = new System.Windows.Controls.MenuItem() { Header = "Edit" };
             var deleteMenuItem = new System.Windows.Controls.MenuItem() { Header = "Delete" };
 
+            // memory leak
             editMenuItem.Click += (s, e) => EditListClick(s, e, listModel);
             deleteMenuItem.Click += (s, e) => DeleteListClick(s, e, listModel);
 
             menu.Items.Add(editMenuItem);
             menu.Items.Add(deleteMenuItem);
             item.ContextMenu = menu;
+        }
+
+        private void CleanUpNavigationItem(NavigationItem item)
+        {
+            item.Click -= Item_Click;
+
+            // FUTURE: Figure out way to unsubscribe these event handlers.
+            //foreach (System.Windows.Controls.MenuItem menuItem in item.ContextMenu.Items)
+            //{
+            //    menuItem.Click -= EditListClick;
+            //    menuItem.Click -= DeleteListClick;
+            //}
         }
     }
 }
