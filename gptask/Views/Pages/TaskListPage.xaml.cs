@@ -205,7 +205,7 @@ namespace gptask.Views.Pages
                 string subtasks = string.Empty;
                 Task.Run(async () => subtasks = await caller.PromptAsync(task.Name)).Wait();
 
-                string[] subtaskArray = subtasks.Split('\n');
+                IEnumerable<string> subtaskArray = subtasks.Split('\n').Where(s => !string.IsNullOrEmpty(s));
 
                 foreach (string subtask in subtaskArray)
                 {

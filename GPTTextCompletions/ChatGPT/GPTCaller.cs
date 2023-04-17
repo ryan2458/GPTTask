@@ -18,13 +18,15 @@ namespace GPTTextCompletions.ChatGPT
         /// <summary>
         /// Instructions to give the chatbot context.
         /// </summary>
-        private string instructions = 
+        private string instructions =
             "You are a work/study coach.  Your goal is to break down tasks that " +
             "are given into no more than five simpler " +
             "subtasks separated by newlines." +
             "If you can't break down the task, " +
             "just respond with 'really?', " +
-            "along with a playful insult.";
+            "along with a playful insult." +
+            "Additionally, do not separate/break tasks down past a number. I've seen you" +
+            " add newlines and then put dashes for 'subitems'.  I don't want this."; 
 
         /// <summary>
         /// Example input for the conversation.
@@ -104,6 +106,7 @@ namespace GPTTextCompletions.ChatGPT
         private Conversation InitializeConversation()
         {
             var chat = api.Chat.CreateConversation();
+            chat.Model = OpenAI_API.Models.Model.GPT4;
 
             // Give the chat context.
             chat.AppendSystemMessage(Instructions);
