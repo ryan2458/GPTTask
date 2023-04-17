@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gptask", "gptask\gptask.csproj", "{F624F7A9-C1AC-488E-A3A3-6E4CD2A2A9FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPTTextCompletions", "GPTTextCompletions\GPTTextCompletions.csproj", "{15F1C43C-7219-4900-82CB-5D20D4937570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPTTextCompletions", "GPTTextCompletions\GPTTextCompletions.csproj", "{15F1C43C-7219-4900-82CB-5D20D4937570}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GptTests", "GptTests\GptTests.csproj", "{CC564621-4539-436B-A930-DC26767C2CBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{15F1C43C-7219-4900-82CB-5D20D4937570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F1C43C-7219-4900-82CB-5D20D4937570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F1C43C-7219-4900-82CB-5D20D4937570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC564621-4539-436B-A930-DC26767C2CBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC564621-4539-436B-A930-DC26767C2CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC564621-4539-436B-A930-DC26767C2CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC564621-4539-436B-A930-DC26767C2CBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

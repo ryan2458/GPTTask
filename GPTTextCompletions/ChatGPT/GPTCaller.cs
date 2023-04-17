@@ -75,7 +75,7 @@ namespace GPTTextCompletions.ChatGPT
             Examples[0] = new Tuple<string,string>(exampleInput[0], exampleOutput[0]);
             Examples[1] = new Tuple<string,string>(exampleInput[1], exampleOutput[1]);
 
-            api = new OpenAIAPI(APIAuthentication.LoadFromPath());
+            api = new OpenAIAPI("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");
             conversation = InitializeConversation();
         }
 
