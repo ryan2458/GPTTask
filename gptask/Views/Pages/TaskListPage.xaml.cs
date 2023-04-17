@@ -174,5 +174,20 @@ namespace gptask.Views.Pages
             }
             return null;
         }
+
+        private void EditTaskHandler(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BreakDownTaskHandler(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteTaskHandler(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
