@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace GPTTextCompletions.ChatGPT
 {
-    internal interface IGpt
+    public interface IGpt
     {
+        string Instructions { get; set; }
+
+        Tuple<string, string>[] Examples { get; set; }
+
+        Task<string> PromptAsync(string userPrompt);
     }
 }

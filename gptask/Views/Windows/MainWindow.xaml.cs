@@ -4,6 +4,7 @@ using gptask.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -115,7 +116,7 @@ namespace gptask.Views.Windows
             AddListTextBox.Focus();
         }
 
-        private async void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
+        private async Task AddListTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
