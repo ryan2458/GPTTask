@@ -53,6 +53,13 @@
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
 
+                                                <Grid.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Edit" />
+                                                        <MenuItem Header="Delete" Click="DeleteTaskHandler" />
+                                                    </ContextMenu>
+                                                </Grid.ContextMenu>
+
                                                 <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
                                                 <TextBlock Margin="0,5,0,0" Grid.Column="1" Text="{Binding Name}" />
                                             </Grid>
