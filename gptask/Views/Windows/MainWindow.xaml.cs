@@ -116,19 +116,20 @@ namespace gptask.Views.Windows
             AddListTextBox.Focus();
         }
 
-        private async void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 var newListModel = new ListModel();
 
                 newListModel.Name = AddListTextBox.Text;
-                int listId = await _dataService.AddOrUpdateListAsync(newListModel);
+                int listId = -1;
+                Task.Run(async () => listId = await _dataService.AddOrUpdateListAsync(newListModel)).Wait();
 
                 string newListTag = $"{newListModel.Id}";
                 newListModel.Tag = newListTag;
 
-                await _dataService.AddOrUpdateListAsync(newListModel);
+                Task.Run(async () => await _dataService.AddOrUpdateListAsync(newListModel)).Wait();
 
                 _taskListPage.AddList(listId, new List<TaskListItemModel>());
 
