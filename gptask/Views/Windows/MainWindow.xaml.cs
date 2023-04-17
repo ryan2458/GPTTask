@@ -116,7 +116,7 @@ namespace gptask.Views.Windows
             AddListTextBox.Focus();
         }
 
-        private void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
+        private async void AddListTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
