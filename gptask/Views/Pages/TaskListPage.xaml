@@ -50,7 +50,7 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30" />
-                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
 
                                                 <Grid.ContextMenu>
@@ -61,7 +61,7 @@
                                                 </Grid.ContextMenu>
 
                                                 <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
-                                                <TextBlock Margin="0,5,0,0" Grid.Column="1" Text="{Binding Name}" />
+                                                <TextBlock Grid.Column="1" Margin="0,5,0,0"  Text="{Binding Name}" TextAlignment="Left" MaxWidth="500" TextWrapping="Wrap"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
