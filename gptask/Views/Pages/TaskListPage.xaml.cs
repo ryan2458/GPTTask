@@ -1,30 +1,19 @@
 ﻿using gptask.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
-using Wpf.Ui.Mvvm.Interfaces;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using gptask.Models;
 using gptask.Services;
-using Wpf.Ui.Mvvm.Services;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using System.Windows.Media.Animation;
+using GPTTextCompletions;
 using MenuItem = System.Windows.Controls.MenuItem;
+using GPTTextCompletions.ChatGPT;
 
 namespace gptask.Views.Pages
 {
@@ -133,6 +122,19 @@ namespace gptask.Views.Pages
             Task.Run(async () => await _dataService.DeleteTaskListItemAsync(taskListItemModel.Id));
         }
 
+        /// <summary>
+        /// Adds a subtask to a top-level task.
+        /// </summary>
+        /// <param name="parentTask">the top-level task.</param>
+        /// <param name="subtaskName">the name of the subtask.</param>
+        public void AddSubtask(TaskListItemModel parentTask, string subtaskName)
+        {
+            TaskListItemModel subtask = new TaskListItemModel(currentList, currentTag,
+                            subtaskName, "", parentTask.Id);
+            parentTask.Subtasks.Add(subtask);
+            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(subtask)).Wait();
+        }
+
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
             string taskName = AddItemTextBox.Text;
@@ -164,12 +166,7 @@ namespace gptask.Views.Pages
 
                     if (!string.IsNullOrEmpty(subtaskName))
                     {
-                        TaskListItemModel subtask = new TaskListItemModel(currentList, currentTag,
-                            subtaskName, "", parentTask.Id);
-
-                        parentTask.Subtasks.Add(subtask);
-
-                        Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(subtask)).Wait();
+                        AddSubtask(parentTask, subtaskName);
                     }
 
                     addSubtaskTextBox.Clear();
@@ -195,9 +192,26 @@ namespace gptask.Views.Pages
 
         }
 
+        /// <summary>
+        /// Raised when the break down task button is clicked.
+        /// </summary>
         private void BreakDownTaskHandler(object sender, RoutedEventArgs e)
         {
+            var task = (sender as MenuItem)?.DataContext as TaskListItemModel;
 
+            if (task != null)
+            {
+                GptCaller caller = new GptCaller();
+                string subtasks = string.Empty;
+                Task.Run(async () => subtasks = await caller.PromptAsync(task.Name)).Wait();
+
+                string[] subtaskArray = subtasks.Split('\n');
+
+                foreach (string subtask in subtaskArray)
+                {
+                    AddSubtask(task, subtask);   
+                }
+            }
         }
 
         /// <summary>
