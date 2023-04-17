@@ -58,21 +58,8 @@ namespace gptask.Views.Windows
                 };
 
                 ViewModel.NavigationItems.Add(navigationItem);
+                SetupNavigationItem(navigationItem, model);
             }
-
-
-            foreach (NavigationItem item in ViewModel.NavigationItems)
-            {
-                item.Click += Item_Click;
-            }
-
-
-        }
-
-        private void Item_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationItem item = e.Source as NavigationItem;
-            RootNavigation.Navigate(item.PageTag);
         }
 
         #region INavigationWindow methods
@@ -142,7 +129,7 @@ namespace gptask.Views.Windows
                 };
 
                 ViewModel.NavigationItems.Add(newItem);
-                newItem.Click += Item_Click;
+                SetupNavigationItem(newItem, newListModel);
                 AddListPopup.IsOpen = false;
                 AddListTextBox.Clear();
             }
@@ -152,6 +139,40 @@ namespace gptask.Views.Windows
         {
             AddListPopup.IsOpen = false;
             AddListTextBox.Clear();
+        }
+
+        private void DeleteListClick(object sender, RoutedEventArgs e, ListModel listModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EditListClick(object sender, RoutedEventArgs e, ListModel listModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Item_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationItem item = e.Source as NavigationItem;
+            RootNavigation.Navigate(item.PageTag);
+        }
+
+        private void SetupNavigationItem(NavigationItem item, ListModel listModel)
+        {
+            item.Click += Item_Click;
+
+            // Create and add context menu to each list.
+            ContextMenu menu = new ContextMenu();
+
+            var editMenuItem = new System.Windows.Controls.MenuItem() { Header = "Edit" };
+            var deleteMenuItem = new System.Windows.Controls.MenuItem() { Header = "Delete" };
+
+            editMenuItem.Click += (s, e) => EditListClick(s, e, listModel);
+            deleteMenuItem.Click += (s, e) => DeleteListClick(s, e, listModel);
+
+            menu.Items.Add(editMenuItem);
+            menu.Items.Add(deleteMenuItem);
+            item.ContextMenu = menu;
         }
     }
 }
