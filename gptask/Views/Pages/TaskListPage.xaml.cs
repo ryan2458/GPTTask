@@ -24,6 +24,7 @@ using Wpf.Ui.Mvvm.Services;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Animation;
+using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace gptask.Views.Pages
 {
@@ -185,9 +186,23 @@ namespace gptask.Views.Pages
 
         }
 
+        /// <summary>
+        /// Raised when the delete menu item in the right-click context menu on a task is clicked.
+        /// </summary>
         private void DeleteTaskHandler(object sender, RoutedEventArgs e)
         {
+            TaskListItemModel taskListItemModel = ((sender as MenuItem)!.DataContext as TaskListItemModel)!;
 
+            // Remove all corresponding subtasks
+            for (int i = taskListItemModel.Subtasks.Count - 1; i >= 0; i--)
+            {
+                TaskListItemModel? subtask = taskListItemModel.Subtasks[i];
+                Task.Run(async () => await _dataService.DeleteTaskListItemAsync(subtask.Id));
+                taskListItemModel.Subtasks.RemoveAt(i);
+            }
+
+            ViewModel.DeleteTask(taskListItemModel);
+            Task.Run(async () => await _dataService.DeleteTaskListItemAsync(taskListItemModel.Id));
         }
     }
 }

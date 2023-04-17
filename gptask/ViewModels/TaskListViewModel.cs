@@ -24,6 +24,11 @@ namespace gptask.ViewModels
             Tasks.Add(newTask);
         }
 
+        public void DeleteTask(TaskListItemModel taskToDelete)
+        {
+            Tasks.Remove(taskToDelete);
+        }
+
         public void OnNavigatedFrom()
         {
         }
