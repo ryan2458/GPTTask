@@ -206,6 +206,13 @@ namespace gptask.Views.Pages
         private void DeleteTaskHandler(object sender, RoutedEventArgs e)
         {
             TaskListItemModel taskListItemModel = ((sender as MenuItem)!.DataContext as TaskListItemModel)!;
+
+            if (taskListItemModel.ParentTaskId != null)
+            {
+                var parentTask = ViewModel.Tasks.Where(task => task.Id == taskListItemModel.ParentTaskId).FirstOrDefault();
+                parentTask?.Subtasks.Remove(taskListItemModel);
+            }
+
             DeleteTask(taskListItemModel);
         }
     }
