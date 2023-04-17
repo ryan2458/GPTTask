@@ -30,6 +30,15 @@
                         
                         <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"></CheckBox>
                         <ui:CardExpander Grid.Column="1" Header="{Binding Name}">
+                            <ui:CardExpander.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Break Down" Click="BreakDownTaskHandler" />
+                                    <Separator />
+                                    <MenuItem Header="Edit" Click="EditTaskHandler" />
+                                    <Separator />
+                                    <MenuItem Header="Delete" Click="DeleteTaskHandler" />
+                                </ContextMenu>
+                            </ui:CardExpander.ContextMenu>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
