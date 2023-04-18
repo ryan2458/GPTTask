@@ -16,6 +16,7 @@ using MenuItem = System.Windows.Controls.MenuItem;
 using GPTTextCompletions.ChatGPT;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
+using System;
 
 namespace gptask.Views.Pages
 {
@@ -212,17 +213,32 @@ namespace gptask.Views.Pages
 
             if (task != null)
             {
-                GptCaller caller = new GptCaller();
-                string subtasks = string.Empty;
-                Task.Run(async () => subtasks = await caller.PromptAsync(task.Name)).Wait();
+                listProgressRing.Visibility = Visibility.Visible;
+                Task.Run(async () => await BreadkDownTaskAsync(task));
+            }
+        }
 
+        /// <summary>
+        /// Breaks a task down on a background thread.
+        /// </summary>
+        /// <param name="task">The task we're breaking down.</param>
+        private async Task BreadkDownTaskAsync(TaskListItemModel task)
+        {
+            GptCaller caller = new GptCaller();
+            string subtasks = string.Empty;
+            subtasks = await caller.PromptAsync(task.Name);
+
+            // This is how we update the UI from a different thread.
+            this.Dispatcher.Invoke(() =>
+            {
+                listProgressRing.Visibility = Visibility.Hidden;
                 IEnumerable<string> subtaskArray = subtasks.Split('\n').Where(s => !string.IsNullOrEmpty(s));
 
                 foreach (string subtask in subtaskArray)
                 {
-                    AddSubtask(task, subtask);   
+                    AddSubtask(task, subtask);
                 }
-            }
+            });
         }
 
         /// <summary>
