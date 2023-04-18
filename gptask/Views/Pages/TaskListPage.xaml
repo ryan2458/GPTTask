@@ -88,11 +88,12 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             
             <ui:TextBox Grid.Column="1" Name="AddItemTextBox"></ui:TextBox>
-            <ui:Button Grid.Column="3" Click="AddItem_Click">Add Item</ui:Button>
+            <ToggleButton Grid.Column="3" Click="ListenButton_Toggle">Listen</ToggleButton>
+            <ui:Button Grid.Column="4" Margin="5,0,5,0"  Click="AddItem_Click">Add Item</ui:Button>
         </Grid>
     </Grid>
 </ui:UiPage>

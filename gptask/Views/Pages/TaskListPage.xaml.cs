@@ -11,9 +11,10 @@ using gptask.Models;
 using gptask.Services;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using GPTTextCompletions;
+using GPTTextCompletions.Speech;
 using MenuItem = System.Windows.Controls.MenuItem;
 using GPTTextCompletions.ChatGPT;
+using System.Windows.Controls.Primitives;
 
 namespace gptask.Views.Pages
 {
@@ -32,6 +33,8 @@ namespace gptask.Views.Pages
 
         private string currentList;
 
+        private SpeechListener speechListener = new SpeechListener();
+
         public List<ListModel> ListModels { get; private set; }
 
         public TaskListPage(INavigationService navigationService, TaskListViewModel viewModel,
@@ -43,6 +46,8 @@ namespace gptask.Views.Pages
             Task.Run(async () => await LoadListsAndTasksAsync(dataService)).Wait();
             _navigationService = navigationService;
             _dataService = dataService;
+
+            speechListener.Engine.SpeechRecognized += Engine_SpeechRecognized;
 
             DataContext = ViewModel;
         }
@@ -233,6 +238,26 @@ namespace gptask.Views.Pages
             }
 
             DeleteTask(taskListItemModel);
+        }
+
+        private void ListenButton_Toggle(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton toggle)
+            {
+                if (toggle.IsChecked ?? false)
+                {
+                    speechListener.Listen();
+                }
+                else
+                {
+                    speechListener.Stop();
+                }
+            }
+        }
+
+        private void Engine_SpeechRecognized(object? sender, System.Speech.Recognition.SpeechRecognizedEventArgs e)
+        {
+            AddItemTextBox.Text += e.Result.Text;
         }
     }
 }
