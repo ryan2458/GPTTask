@@ -18,7 +18,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        
+
+        <ui:ProgressRing Name="listProgressRing" Visibility="Hidden" FlowDirection="LeftToRight" IsIndeterminate="True"></ui:ProgressRing>
         <ListView Name="listView" Grid.Row="0" ItemsSource="{Binding Tasks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -27,7 +28,7 @@
                             <ColumnDefinition Width="30" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
+
                         <CheckBox Grid.Column="0" IsChecked="{Binding Checked}" Checked="TaskCheckedHandler" Unchecked="TaskUncheckedHandler"></CheckBox>
                         <ui:CardExpander Grid.Column="1" Header="{Binding Name}">
                             <ui:CardExpander.ContextMenu>
