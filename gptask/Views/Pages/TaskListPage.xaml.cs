@@ -97,6 +97,11 @@ namespace gptask.Views.Pages
                     ViewModel.Tasks = lists[listId];
                     currentTag = listId.ToString();
                     currentList = nav.Current.Content.ToString();
+                    AddTaskGrid.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    AddTaskGrid.Visibility = Visibility.Hidden;
                 }
             }
         }

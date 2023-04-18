@@ -194,6 +194,7 @@ namespace gptask.Views.Windows
             {
                 RootNavigation.Navigate(firstItem.PageTag);
             }
+            _taskListPage.AddTaskGrid.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
