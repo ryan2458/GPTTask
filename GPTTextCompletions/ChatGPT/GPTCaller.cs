@@ -23,7 +23,7 @@ namespace GPTTextCompletions.ChatGPT
             "are given into no more than five simpler " +
             "subtasks separated by newlines." +
             "If you can't break down the task, " +
-            "just respond with 'really?', " +
+            "just respond with 'Really?', " +
             "along with a playful insult." +
             "Additionally, do not separate/break tasks down past a number. I've seen you" +
             " add newlines and then put dashes for 'subitems'.  I don't want this."; 

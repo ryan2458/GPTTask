@@ -15,6 +15,7 @@ using GPTTextCompletions.Speech;
 using MenuItem = System.Windows.Controls.MenuItem;
 using GPTTextCompletions.ChatGPT;
 using System.Windows.Controls.Primitives;
+using System.Windows.Controls;
 
 namespace gptask.Views.Pages
 {
@@ -258,6 +259,43 @@ namespace gptask.Views.Pages
         private void Engine_SpeechRecognized(object? sender, System.Speech.Recognition.SpeechRecognizedEventArgs e)
         {
             AddItemTextBox.Text += e.Result.Text;
+        }
+
+        private void TaskCheckedHandler(object sender, RoutedEventArgs e)
+        {
+            TaskCheckedUncheckedHandler(sender, e);
+        }
+
+        private void TaskUncheckedHandler(object sender, RoutedEventArgs e)
+        {
+            TaskCheckedUncheckedHandler(sender, e);
+        }
+
+        private void TaskCheckedUncheckedHandler(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox box)
+            {
+                TaskListItemModel task = (box.DataContext as TaskListItemModel)!;
+
+                if (task != null)
+                {
+                    UpdateTask(task);
+
+                    if (task.ParentTaskId == null)
+                    {
+                        foreach (var subtask in task.Subtasks)
+                        {
+                            subtask.Checked = task.Checked;
+                            UpdateTask(subtask);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateTask(TaskListItemModel task)
+        {
+            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(task)).Wait();
         }
     }
 }
