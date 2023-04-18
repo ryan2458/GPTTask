@@ -214,6 +214,9 @@ namespace gptask.Views.Pages
             if (task != null)
             {
                 listProgressRing.Visibility = Visibility.Visible;
+                listView.Visibility = Visibility.Hidden;
+                AddTaskGrid.Visibility = Visibility.Hidden;
+
                 Task.Run(async () => await BreadkDownTaskAsync(task));
             }
         }
@@ -232,6 +235,9 @@ namespace gptask.Views.Pages
             this.Dispatcher.Invoke(() =>
             {
                 listProgressRing.Visibility = Visibility.Hidden;
+                listView.Visibility = Visibility.Visible;
+                AddTaskGrid.Visibility = Visibility.Visible;
+
                 IEnumerable<string> subtaskArray = subtasks.Split('\n').Where(s => !string.IsNullOrEmpty(s));
 
                 foreach (string subtask in subtaskArray)
