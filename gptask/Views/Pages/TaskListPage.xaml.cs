@@ -281,6 +281,7 @@ namespace gptask.Views.Pages
         private void Engine_SpeechRecognized(object? sender, System.Speech.Recognition.SpeechRecognizedEventArgs e)
         {
             AddItemTextBox.Text += e.Result.Text;
+            ListenButton.IsChecked = false;
         }
 
         private void TaskCheckedHandler(object sender, RoutedEventArgs e)
