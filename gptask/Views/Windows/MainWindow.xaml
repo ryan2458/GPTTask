@@ -43,11 +43,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Margin="0,12">
-                    <TextBlock FontSize="16" Text="WPF UI - gptask" />
-                    <TextBlock
-                        FontSize="10"
-                        Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                        Text="Fluent design" />
+                    <TextBlock FontSize="16" Text="GPTask" />
                 </StackPanel>
 
                 <ui:AutoSuggestBox Grid.Row="1" Margin="0,0,0,12" />
