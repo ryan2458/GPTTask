@@ -22,5 +22,5 @@ The core features of the app are:
 
     Calendar for visual planning.
 
-    Auto scheduling
+    Due Dates
 
