@@ -20,7 +20,7 @@ The core features of the app are:
 
     Speech to text
 
-    Calendar integration for daily scheduling
+    Calendar for visual planning.
 
     Auto scheduling
 
