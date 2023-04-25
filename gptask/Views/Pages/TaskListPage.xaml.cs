@@ -25,11 +25,7 @@ namespace gptask.Views.Pages
     /// </summary>
     public partial class TaskListPage : INavigableView<ViewModels.TaskListViewModel>
     {
-        private IDictionary<int, ObservableCollection<TaskListItemModel>> lists = new Dictionary<int, ObservableCollection<TaskListItemModel>>();
-
         private INavigationService _navigationService;
-
-        private IDataService _dataService;
 
         private string currentTag;
 
@@ -37,17 +33,14 @@ namespace gptask.Views.Pages
 
         private SpeechListener speechListener = new SpeechListener();
 
-        public List<ListModel> ListModels { get; private set; }
+        public TaskListViewModel ViewModel { get; private set; }
 
-        public TaskListPage(INavigationService navigationService, TaskListViewModel viewModel,
-            IDataService dataService)
+        public TaskListPage(INavigationService navigationService, TaskListViewModel viewModel)
         {
             InitializeComponent();
             ViewModel = viewModel;
 
-            Task.Run(async () => await LoadListsAndTasksAsync(dataService)).Wait();
             _navigationService = navigationService;
-            _dataService = dataService;
 
             speechListener.Engine.SpeechRecognized += Engine_SpeechRecognized;
 
@@ -57,37 +50,6 @@ namespace gptask.Views.Pages
         public void InitializeView()
         {
             _navigationService.GetNavigationControl().Navigated += Navigation_Navigated;
-        }
-
-        private async Task LoadListsAndTasksAsync(IDataService dataService)
-        {
-            // Fetch lists from the database
-            ListModels = await dataService.GetAllListsAsync();
-
-            // Fetch tasks for each list and add them to the lists collection
-            foreach (var list in ListModels)
-            {
-                var tasks = await dataService.GetTaskListItemsAsync(list.Tag);
-
-                for (int i = 0; i < tasks.Count; ++i)
-                {
-                    TaskListItemModel task = tasks[i];
-                    if (task.ParentTaskId != null)
-                    {
-                        var parentTask = tasks.Find(t => t.Id == task.ParentTaskId);
-                        parentTask!.Subtasks.Add(task);
-                        tasks.Remove(task);
-                        i -= 1;
-                    }
-                }
-
-                lists.Add(list.Id, new ObservableCollection<TaskListItemModel>(tasks));
-            }
-
-            if (lists.Count > 0)
-            {
-                ViewModel.Tasks = lists.First().Value;
-            }
         }
 
         private void Navigation_Navigated([System.Diagnostics.CodeAnalysis.NotNull] 
@@ -101,7 +63,7 @@ namespace gptask.Views.Pages
 
                 if (parsed)
                 {
-                    ViewModel.Tasks = lists[listId];
+                    ViewModel.ChangeList(listId);
                     currentTag = listId.ToString();
                     currentList = nav.Current.Content.ToString();
                     AddTaskGrid.Visibility = Visibility.Visible;
@@ -113,25 +75,14 @@ namespace gptask.Views.Pages
             }
         }
 
-        public TaskListViewModel ViewModel { get; private set; }
-
         public void AddList(int listId, List<TaskListItemModel> newList)
         {
-            lists.Add(listId, new ObservableCollection<TaskListItemModel>(newList));
+            ViewModel.AddList(listId, newList);
         }
 
         public void DeleteTask(TaskListItemModel taskListItemModel)
         {
-            // Remove all corresponding subtasks
-            for (int i = taskListItemModel.Subtasks.Count - 1; i >= 0; i--)
-            {
-                TaskListItemModel? subtask = taskListItemModel.Subtasks[i];
-                Task.Run(async () => await _dataService.DeleteTaskListItemAsync(subtask.Id));
-                taskListItemModel.Subtasks.RemoveAt(i);
-            }
-
             ViewModel.DeleteTask(taskListItemModel);
-            Task.Run(async () => await _dataService.DeleteTaskListItemAsync(taskListItemModel.Id));
         }
 
         /// <summary>
@@ -141,26 +92,19 @@ namespace gptask.Views.Pages
         /// <param name="subtaskName">the name of the subtask.</param>
         public void AddSubtask(TaskListItemModel parentTask, string subtaskName)
         {
-            TaskListItemModel subtask = new TaskListItemModel(currentList, currentTag,
-                            subtaskName, "", parentTask.Id);
-            parentTask.Subtasks.Add(subtask);
-            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(subtask)).Wait();
+            ViewModel.AddSubtask(parentTask, subtaskName, currentList, currentTag);
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
             string taskName = AddItemTextBox.Text;
-
-            string listName = currentList;
-            string listTag = currentTag;
-
-            TaskListItemModel task = new TaskListItemModel(listName, listTag, taskName);
-
-            ViewModel.AddTask(task);
-
-            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(task)).Wait();
-
+            AddTask(taskName, currentList, currentTag);
             AddItemTextBox.Clear();
+        }
+
+        private void AddTask(string taskName, string listName, string listTag)
+        {
+            ViewModel.AddTask(taskName, listName, listTag);
         }
 
         private void AddSubtaskButton_Click(object sender, RoutedEventArgs e)
@@ -217,7 +161,7 @@ namespace gptask.Views.Pages
                 listView.Visibility = Visibility.Hidden;
                 AddTaskGrid.Visibility = Visibility.Hidden;
 
-                Task.Run(async () => await BreadkDownTaskAsync(task));
+                Task.Run(async () => await BreakDownTaskAsync(task));
             }
         }
 
@@ -225,7 +169,7 @@ namespace gptask.Views.Pages
         /// Breaks a task down on a background thread.
         /// </summary>
         /// <param name="task">The task we're breaking down.</param>
-        private async Task BreadkDownTaskAsync(TaskListItemModel task)
+        private async Task BreakDownTaskAsync(TaskListItemModel task)
         {
             GptCaller caller = new GptCaller();
             string subtasks = string.Empty;
@@ -318,7 +262,7 @@ namespace gptask.Views.Pages
 
         private void UpdateTask(TaskListItemModel task)
         {
-            Task.Run(async () => await _dataService.AddOrUpdateTaskListItemAsync(task)).Wait();
+            ViewModel.UpdateTask(task);
         }
     }
 }
