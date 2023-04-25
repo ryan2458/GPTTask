@@ -11,9 +11,9 @@ namespace gptask.Services
     {
         private readonly SQLiteAsyncConnection _db;
 
-        public SqliteDataService()
+        public SqliteDataService(string dbName = "TaskList.db")
         {
-            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TaskList.db");
+            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), dbName);
             _db = new SQLiteAsyncConnection(dbPath);
 
             Task.Run(async () => await InitializeDatabase()).Wait();
