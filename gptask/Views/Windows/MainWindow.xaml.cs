@@ -145,7 +145,7 @@ namespace gptask.Views.Windows
                 {
                     Content = newListModel.Name,
                     PageTag = newListTag,
-                    Icon = Wpf.Ui.Common.SymbolRegular.Airplane20,
+                    Icon = SymbolRegular.List24,
                     PageType = typeof(Views.Pages.TaskListPage)
                 };
 
