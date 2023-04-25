@@ -60,7 +60,7 @@ namespace gptask.Views.Windows
 
             _taskListPage.InitializeView();
 
-            foreach (ListModel model in taskListPage.ListModels)
+            foreach (ListModel model in taskListPage.ViewModel.ListModels)
             {
                 NavigationItem navigationItem = new NavigationItem()
                 {
