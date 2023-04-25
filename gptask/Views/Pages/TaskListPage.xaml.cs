@@ -75,7 +75,6 @@ namespace gptask.Views.Pages
             }
         }
 
-
         public void AddList(int listId, List<TaskListItemModel> newList)
         {
             ViewModel.AddList(listId, newList);
