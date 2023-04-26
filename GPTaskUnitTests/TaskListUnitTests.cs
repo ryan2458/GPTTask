@@ -44,9 +44,16 @@ namespace GPTaskUnitTests
         [Test]
         public void TestAddSubtask()
         {
-            TestAddTask();
+            viewModel.AddTask("testTask", "testList", "testTag");
+            TaskListItemModel task = viewModel.Tasks.First();
+            viewModel.AddSubtask(task, "testSubtaskName", "testSubtaskList", "testSubtaskTag");
 
-            
+            Assert.Multiple(() =>
+            {
+                Assert.That(viewModel.Tasks.First().Subtasks.First().Name, Is.EqualTo("testSubtaskName"));
+                Assert.That(viewModel.Tasks.First().Subtasks.First().ListName, Is.EqualTo("testSubtaskList"));
+                Assert.That(viewModel.Tasks.First().Subtasks.First().ListTag, Is.EqualTo("testSubtaskTag"));
+            });
         }
     }
 }
