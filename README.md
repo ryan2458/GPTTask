@@ -24,3 +24,10 @@ The core features of the app are:
 
     Due Dates
 
+
+## Repository and Installation setup
+
+- Modify/Install Visual Studio 2022.
+- When installing, install the ".NET Desktop Development" workload.  This will add the required compononents needed to debug WPF applications.
+- Clone the repository and set the startup project to "gptask" if it is not set as the startup project by default.
+- You should now be able to run and debug the project.
