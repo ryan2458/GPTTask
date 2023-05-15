@@ -80,7 +80,18 @@ namespace GPTTextCompletions.ChatGPT
             Examples[0] = new Tuple<string,string>(exampleInput[0], exampleOutput[0]);
             Examples[1] = new Tuple<string,string>(exampleInput[1], exampleOutput[1]);
 
-            api = new OpenAIAPI("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");
+            // We read from a gitignored file so I can avoid putting my OpenAI API key in the repo.
+            string? key = string.Empty;
+            string path = string.Empty;
+#if DEBUG
+            path = "../../../../GPTTextCompletions/ChatGPT/key.openai";
+#endif
+            using (StreamReader sr = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
+            {
+                key = sr.ReadLine();
+            }
+
+            api = new OpenAIAPI(key);
             conversation = InitializeConversation();
         }
 

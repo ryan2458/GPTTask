@@ -46,16 +46,16 @@ namespace gptask
                 services.AddSingleton<IDataService, SqliteDataService>();
 
                 // Main window with navigation
-                services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
-                services.AddScoped<ViewModels.MainWindowViewModel>();
+                services.AddTransient<INavigationWindow, Views.Windows.MainWindow>();
+                services.AddTransient<ViewModels.MainWindowViewModel>();
 
                 // Views and ViewModels
-                services.AddScoped<Views.Pages.CalendarPage>();
-                services.AddScoped<ViewModels.CalendarViewModel>();
-                services.AddScoped<Views.Pages.SettingsPage>();
-                services.AddScoped<ViewModels.SettingsViewModel>();
-                services.AddScoped<Views.Pages.TaskListPage>();
-                services.AddScoped<ViewModels.TaskListViewModel>();
+                services.AddTransient<Views.Pages.CalendarPage>();
+                services.AddTransient<ViewModels.CalendarViewModel>();
+                services.AddTransient<Views.Pages.SettingsPage>();
+                services.AddTransient<ViewModels.SettingsViewModel>();
+                services.AddTransient<Views.Pages.TaskListPage>();
+                services.AddTransient<ViewModels.TaskListViewModel>();
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
